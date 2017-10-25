@@ -73,7 +73,7 @@ t = TimeAxis(-(Ns//2)*dt,Ns,dt,atype="complete")
 """
 
 # Function values
-y = numpy.exp(-numpy.abs(t.time)*gg)
+y = numpy.exp(-numpy.abs(t.data)*gg)
 
 # we define DFunction 
 f = DFunction(t,y)
@@ -82,7 +82,7 @@ f = DFunction(t,y)
 F = f.get_Fourier_transform()
 
 # plot of the original function to be transformed
-plt.plot(f.axis.time,f.data,"-b")
+plt.plot(f.axis.data,f.data,"-b")
 plt.axis([-1000,1000,0.0,1.1])
 plt.title("Even exponential to be Fourier transformed")
 plt.text(-800,0.8,r'$f(t) = e^{-\gamma |t|}$',fontdict={'size':20})
@@ -105,7 +105,7 @@ F.plot(show=False,color="-b")
 # calculate the function analytically
 k = 0
 ff = numpy.zeros(F.axis.length)
-for x in F.axis.frequency:
+for x in F.axis.data:
     ff[k] = 2.0*gg/(gg**2 + x**2)
     #print(x,ff[k])
     k += 1
@@ -140,11 +140,11 @@ print(
     and addition fast oscillation with frequency \omega_0 = 0.4 
 """)
 # Highly oscillating function; otherwise the same as before
-y = numpy.exp(-numpy.abs(t.time)*gg-1j*om0*t.time)
+y = numpy.exp(-numpy.abs(t.data)*gg-1j*om0*t.data)
 
 f = DFunction(t,y)
 
-plt.plot(f.axis.time,numpy.real(f.data))
+plt.plot(f.axis.data,numpy.real(f.data))
 plt.axis([-1000,1000,-1.1,1.1])
 plt.title("Even exponential with fast oscillations")
 plt.text(-900,0.8,r'$f(t) = e^{-\gamma |t| -i\omega_0 t}$',
@@ -166,12 +166,12 @@ F.plot(show=False)
 
 k = 0
 ff = numpy.zeros(F.axis.length)
-for x in F.axis.frequency:
+for x in F.axis.data:
     ff[k] = 2.0*gg/(gg**2 + (x-om0)**2)
     k += 1
     
-plt.plot(F.axis.frequency,numpy.real(ff))
-plt.plot(F.axis.frequency,ff,"-g")
+plt.plot(F.axis.data,numpy.real(ff))
+plt.plot(F.axis.data,ff,"-g")
 plt.axis([-0.6,0.6,0.0,120])
 plt.title("Lorentzian as a result of the Fourier transform")
 plt.text(-0.5,80,
@@ -190,8 +190,8 @@ print(
 """)
 f1 = F.get_inverse_Fourier_transform()
 
-plt.plot(f1.axis.time,numpy.real(f1.data))
-plt.plot(f.axis.time,numpy.real(f.data))
+plt.plot(f1.axis.data,numpy.real(f1.data))
+plt.plot(f.axis.data,numpy.real(f.data))
 plt.axis([-200,200,-1,1.1])
 plt.title("Reconstructed even exponential with fast oscillations")
 plt.text(-180,0.8,r'$f(t) = e^{-\gamma |t| -i\omega_0 t}$',
@@ -213,7 +213,7 @@ print(
 t = TimeAxis(0.0,Ns,dt) 
 
 # Function values
-y = numpy.exp(-numpy.abs(t.time)*gg)
+y = numpy.exp(-numpy.abs(t.data)*gg)
 
 # we define DFunction 
 f = DFunction(t,y)
@@ -235,7 +235,7 @@ F.plot(show=False,
 # calculate the function analytically
 k = 0
 ff = numpy.zeros(F.axis.length)
-for x in F.axis.frequency:
+for x in F.axis.data:
     ff[k] = 2.0*gg/(gg**2 + x**2)
     k += 1
     

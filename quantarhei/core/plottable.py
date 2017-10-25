@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from .saveable import Saveable
 
-class Plotable:
-    """Plotable objects can be plotted
+class Plottable:
+    """Plottable objects can be plotted
     
     """
  

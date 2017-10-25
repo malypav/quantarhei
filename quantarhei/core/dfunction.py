@@ -522,6 +522,7 @@ class DFunction(Saveable):
 
         return F
 
+            
 
     def plot(self, title=None,
              title_font=None,
@@ -533,18 +534,45 @@ class DFunction(Saveable):
              text_font=None,
              real_only=True,
              show=True,
-             color=None):
+             color=None, conf=None):
         """Plotting of the DFunction's data against the ValueAxis
 
         """
+        
+        if conf is None:
+            self.plotconf = PlotConfiguration()
+        else:
+            self.plotconf = conf
+            
+        pc = self.plotconf
+        
+        #
+        # Temporary solution for back-compatibility
+        #
+        if title is not None:
+            pc.title = title
+        if xlabel is not None:
+            pc.xlabel = xlabel
+        if ylabel is not None:
+            pc.ylabel = ylabel
+        if label_font is not None:
+            pc.xfont = label_font
+            pc.yfont = label_font
+        if axis is not None:
+            pc.axis = axis
 
-
+        #
+        # Color(s)
+        #
         if color is not None:
             if len(color) == 1:
                 clr = [color, color]
             else:
                 clr = [color[0], color[1]]
 
+        # 
+        # How to draw data
+        #
         if isinstance(self.data[0], numbers.Complex):
             if color is not None:
                 plt.plot(self.axis.data, numpy.real(self.data), clr[0])
@@ -561,13 +589,20 @@ class DFunction(Saveable):
                 plt.plot(self.axis.data, self.data,clr[0])
             else:
                 plt.plot(self.axis.data, self.data)
+            
+        #
+        # Window which is plotted
+        #
+        pc.conf_axis()
+        
+        #
+        # Title of the plot
+        #
+        pc.conf_title()
 
-        if axis is not None:
-            plt.axis(axis)
-
-        if title is not None:
-            plt.title(title)
-
+        #
+        # Texts in the plot
+        #
         if text is not None:
             if text_font is not None:
                 plt.text(text[0],text[1],
@@ -575,30 +610,27 @@ class DFunction(Saveable):
             else:
                 plt.text(text[0], text[1], text[2])
 
-        if label_font is not None:
-            font = label_font
-        else:
-            font={'size':20}
+        #
+        # X and Y axes labels
+        #
+        if pc.xlabel is None:
+            if isinstance(self.axis, FrequencyAxis):
+                units = self.axis.unit_repr_latex()
+                pc.xlable = r'$\omega$ ['+units+']'
+            elif isinstance(self.axis, TimeAxis):
+                pc.xlable = r'$t$ [fs]'
+            
+        if pc.ylabel is None:
+            if isinstance(self.axis, FrequencyAxis):
+                pc.ylable = r'$F(\omega)$'
+            elif isinstance(self.axis, TimeAxis):
+                pc.ylable = r'$f(t)$'
 
-        if xlabel is not None:
-            xl = r'$\omega$ [fs$^{-1}$]'
-
-        if isinstance(self.axis, FrequencyAxis):
-            units = self.axis.unit_repr_latex()
-            xl = r'$\omega$ ['+units+']'
-            yl = r'$F(\omega)$'
-        if isinstance(self.axis, TimeAxis):
-            xl = r'$t$ [fs]'
-            yl = r'$f(t)$'
-
-        if xlabel is not None:
-            xl = xlabel
-        if ylabel is not None:
-            yl = ylabel
-
-        plt.xlabel(xl, **font)
-        plt.ylabel(yl, **font)
-
+        pc.conf_labels()
+        
+        #
+        # Show or not
+        #
         if show:
             plt.show()
 
@@ -708,3 +740,51 @@ class DFunction(Saveable):
             axs = ValueAxis(st, N, dt)
 
         self._make_me(axs, dat)
+
+
+class PlotConfiguration(Saveable):
+    
+    def __init__(self):
+        
+        import matplotlib.pyplot as plt
+        
+        self.plt = plt
+        self.title = None
+        self.xlabel = None
+        self.ylabel = None
+        self.axis = None
+        
+        self.set_default_font()
+        
+        
+    def set_default_font(self):
+        self.xfont = {'size':20}
+        self.yfont = {'size':20}
+        
+        
+    def conf_title(self):
+        """Sets a title to current figure
+        
+        """
+        if self.title is not None:
+            self.plt.title(self.title)
+            
+    def conf_labels(self):
+        """Sets x and y lables of the figure
+        
+        """
+        if self.xlabel is not None:
+            xl = self.xlabel
+            self.plt.xlabel(xl, **self.xfont)
+            
+        if self.ylabel is not None:
+            yl = self.ylabel
+            self.plt.ylable(yl, **self.yfont)
+            
+    def conf_axis(self):
+        
+        if self.axis is not None:
+            self.plt.axis(self.axis)
+
+       
+    

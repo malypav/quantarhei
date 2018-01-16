@@ -22,7 +22,7 @@ en = 12000.0
 e_units = qr.energy_units("1/cm")
 
 with e_units:
-    m = qr.Molecule("Molecule",[0.0,en])
+    m = qr.Molecule([0.0,en]) #parameters! changed from name, energy -> units, savable
     with qr.energy_units("1/cm"):
         cfce1 = qr.CorrelationFunction(ta,cfce_params1)
     
@@ -78,18 +78,18 @@ cfce_params2 = dict(ftype="OverdampedBrownian",
 with qr.energy_units("1/cm"):
     cfce1 = qr.CorrelationFunction(ta,cfce_params1)
     cfce2 = qr.CorrelationFunction(ta,cfce_params2)
-    m1 = qr.Molecule("M1",[0.0, 12100])
+    m1 = qr.Molecule([0.0, 12100])
     m1.set_dipole(0,1,[0.0,3.0,0.0])
     m1.set_transition_environment((0,1),cfce1)
     m1.position = [0.0,0.0,0.0]
-    m2 = qr.Molecule("M1",[0.0, 12000])
+    m2 = qr.Molecule([0.0, 12000])
     m2.set_dipole(0,1,[0.0,1.0,1.0])
     m2.position = [5.0,0.0,0.0]
     m2.set_transition_environment((0,1),cfce2)    
     
     
 # create an aggregate
-AG = qr.Aggregate("TestAggregate")
+AG = qr.Aggregate(name="TestAggregate")
 #AG.set_egcf_matrix(cm)
 
 # fill the cluster with monomers

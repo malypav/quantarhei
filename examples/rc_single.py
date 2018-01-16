@@ -103,7 +103,8 @@ with energy_units("1/cm"):
     # Molecule named "RC-P" with three states (ground, CT and exciton state)
     # is created
     en = [0.0, 14500, 15500]
-    m = Molecule("RC-P",en)    
+    m = Molecule(en)    
+    m.set_name("RC-P")
 
     # Transition dipole moment from 0 -> 2 (exciton state) is set to 
     # a unit vector in the direction of x-axis (this choice is arbitrary)
@@ -190,8 +191,7 @@ with energy_units("1/cm"):
     # Here we plot the bath correlation functions    
     if verbose and show_plots:
         print("Bath correlation functions:")
-        # FIXME: give the plot a title and describe axes
-        
+        # FIXME: give the plot a title and describe axes   
         # CT correlation function
         # plot real part of the correlation function
         plt.plot(timeAxis.time,numpy.real(corfunc_ct.data),"-k")

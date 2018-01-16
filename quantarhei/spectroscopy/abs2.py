@@ -126,6 +126,13 @@ class AbsSpectrumBase(DFunction, EnergyUnitsManaged):
         
         """
         self.normalize2(norm=1.0)
+        
+    def subtract(self, val):
+        """Subtracts a value from the spectrum to shift its base line
+        
+        """
+        self.data -= val
+        
 
     def add_to_data(self, spect):
         """Performs addition on the data.
@@ -443,7 +450,7 @@ class AbsSpectrumContainer(Saveable):
             if tag is None:
                 tag1 = str(self.count)
             else:
-                tag1 = tag
+                tag1 = str(tag)
             self.spectra[tag1] = spect
             self.count += 1
         else:

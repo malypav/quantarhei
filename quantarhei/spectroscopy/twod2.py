@@ -221,7 +221,8 @@ class TwoDSpectrum(TwoDSpectrumBase):
              colorbar=True, colorbar_loc="right",
              cmap=None, Npos_contours=10,
              show_states=None,
-             text_loc=[0.05,0.9], fontsize="20", label=None):
+             text_loc=[0.05,0.9], fontsize="20", label=None, zero_contour=True,
+             plot_units=r'cm$^{-1}$'):
         """Plots the 2D spectrum
         
         Parameters
@@ -338,17 +339,21 @@ class TwoDSpectrum(TwoDSpectrumBase):
                 label,
                 fontsize=str(fontsize))
         
+        #axis labels
+        plt.xlabel(r'$\omega_{1}$ ('+plot_units+')')
+        plt.ylabel(r'$\omega_{3}$ ('+plot_units+')')
         # positive contours
         plt.contour(self.xaxis.data[i1_min:i1_max],
                      self.yaxis.data[i3_min:i3_max],
                      realout, levels=poslevels, colors="k",
                      linewidth=1)
         
-        # zero contour
-        plt.contour(self.xaxis.data[i1_min:i1_max],
-                     self.yaxis.data[i3_min:i3_max],
-                     realout, levels=[0],colors="b",
-                     linewidth=1)
+        if zero_contour:
+            # zero contour
+            plt.contour(self.xaxis.data[i1_min:i1_max],
+                         self.yaxis.data[i3_min:i3_max],
+                         realout, levels=[0],colors="b",
+                         linewidth=1)
         
         # negatove contours
         plt.contour(self.xaxis.data[i1_min:i1_max],
@@ -819,12 +824,16 @@ class TwoDSpectrumCalculator:
                  dynamics="secular",
                  relaxation_tensor=None,
                  rate_matrix=None,
-                 effective_hamiltonian=None):
+                 effective_hamiltonian=None,
+                 twodtype="2DES",
+                 gamma_factor=2):
             
             
         self.t1axis = t1axis
         self.t2axis = t2axis
         self.t3axis = t3axis
+        self.twodtype = twodtype
+        self.gamma_factor = gamma_factor
         
         #FIXME: check the compatibility of the axes 
         
@@ -1060,6 +1069,11 @@ class TwoDSpectrumCalculator:
                              dtype=numpy.complex128, order='F')
         resp_n = numpy.zeros((Nr1, Nr3), 
                              dtype=numpy.complex128, order='F')
+        #additional response storage for the ESAs
+        respf_r = numpy.zeros((Nr1, Nr3), 
+                             dtype=numpy.complex128, order='F')
+        respf_n = numpy.zeros((Nr1, Nr3), 
+                             dtype=numpy.complex128, order='F')
 
         # FIXME: on which axis we should be looking for it2 ??? 
         (it2, err) = self.t1axis.locate(tt2) 
@@ -1085,8 +1099,10 @@ class TwoDSpectrumCalculator:
         
         self._vprint(" - excited state absorption")
         # ESA
-        nr3td.nr3_r1fs(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_r)
-        nr3td.nr3_r2fs(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_n)
+#        nr3td.nr3_r1fs(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_r)
+#        nr3td.nr3_r2fs(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_n)
+        nr3td.nr3_r1fs(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, respf_r)
+        nr3td.nr3_r2fs(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, respf_n)
         
         # Transfer
         
@@ -1104,10 +1120,23 @@ class TwoDSpectrumCalculator:
     
         self._vprint(" - excited state absorption with transfer") 
         # ESA
-        nr3td.nr3_r1fs_trans(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_r)
-        nr3td.nr3_r2fs_trans(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_n)
+#        nr3td.nr3_r1fs_trans(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_r)
+#        nr3td.nr3_r2fs_trans(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, resp_n)
+        nr3td.nr3_r1fs_trans(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, respf_r)
+        nr3td.nr3_r2fs_trans(self.lab, self.sys, it2, self.t1s, self.t3s, self.rwa, self.rmin, respf_n)
         
         
+        if self.twodtype == "2DES":
+            resp_n=resp_n+respf_n
+            resp_r=resp_r+respf_r
+        
+        elif self.twodtype == "FL2D":
+            resp_n=resp_n+(self.gamma_factor-1)*respf_n
+            resp_r=resp_r+(self.gamma_factor-1)*respf_r            
+            
+        else:
+            raise Exception("Unknown type of 2DES")
+            
         t2 = time.time()
         self._vprint("... calculated in "+str(t2-t1)+" sec")
 

@@ -50,7 +50,7 @@ with energy_units("1/cm"):
 mol1.position = [0.0, 0.0, 0.0]
 # dimer 1
 #mol2.position = [0.0, 6.0, 0.0]
-mol2.position = [0.0, 0.0, 7.0]
+mol2.position = [0.0, 0.0, 5.0]
 ## dimer 2
 #mol2.position = [0.0, 0.0, 6.0]
 mju1=numpy.array([3.0,1.0,0.0])
@@ -132,10 +132,10 @@ tcalc.bootstrap(rwa, verbose=True, lab=lab)
 # Calculate 2D spectra, display and save them
 #    
 
-w1_min = rwa_cm - 650.0
-w1_max = rwa_cm + 650.0
-w3_min = rwa_cm - 650.0
-w3_max = rwa_cm + 650.0
+w1_min = rwa_cm - 750.0
+w1_max = rwa_cm + 750.0
+w3_min = rwa_cm - 750.0
+w3_max = rwa_cm + 750.0
 
 window_2D = [w1_min, w1_max, w3_min, w3_max]
 t_start = time.time()

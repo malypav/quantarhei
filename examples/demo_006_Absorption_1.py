@@ -25,7 +25,7 @@ if _use_tempdir_:
     try:
         tfid = tempfile.TemporaryDirectory()
         wdir = tfid.name
-    except: 
+    except:
         raise Exception("Creating temporary directory failed")
 else:
 #</remove>

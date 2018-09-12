@@ -25,7 +25,7 @@ if _use_tempdir_:
     try:
         tfid = tempfile.TemporaryDirectory()
         wdir = tfid.name
-    except:
+    except: 
         raise Exception("Creating temporary directory failed")
 else:
 #</remove>
@@ -52,7 +52,7 @@ en = 12000.0
 e_units = qr.energy_units("1/cm")
 
 with e_units:
-    m = qr.Molecule("Molecule",[0.0,en])
+    m = qr.Molecule(name="Molecule",elenergies=[0.0,en])
     with qr.energy_units("1/cm"):
         cfce1 = qr.CorrelationFunction(ta,cfce_params1)
     
@@ -142,7 +142,7 @@ with qr.energy_units("1/cm"):
     
     
 # create an aggregate
-AG = qr.Aggregate("TestAggregate")
+AG = qr.Aggregate(name="TestAggregate")
 #AG.set_egcf_matrix(cm)
 
 # fill the cluster with monomers

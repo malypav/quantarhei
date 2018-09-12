@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-    Quantarhei package (http://www.github.com/quantarhei)
-
-    redfield tensor module
+    Redfield Tensor
     
-*******************************************************************************
-
-    REDFIELD RELAXATION TENSOR
-
-*******************************************************************************
+    
+    Class Details
+    -------------
+    
 """
 import time
 import numpy
@@ -76,7 +73,8 @@ class RedfieldRelaxationTensor(RelaxationTensor):
                  cutoff_time=None, as_operators=False,
                  name=""):
                      
-        super().__init__()
+        #super().__init__()
+        self._initialize_basis()
         
         #
         # Check the types of the arguments
@@ -97,6 +95,7 @@ class RedfieldRelaxationTensor(RelaxationTensor):
         self.dim = self.Hamiltonian.dim
         self.name = name
         
+        self._data_initialized = False
         self._is_initialized = False
         self._has_cutoff_time = False
         self.as_operators = as_operators
@@ -239,7 +238,7 @@ class RedfieldRelaxationTensor(RelaxationTensor):
                 # or a cross-correlation function of sites ns and ms
                 
                 #FIXME: reaching correct correlation function is a nightmare!!!
-                rc1 = sbi.CC.get_coft(ms, ns) 
+                rc1 = sbi.CC.get_coft(ms, ns)  
                         
                 self._guts_Cmplx_Splines(ms, Lm, Km, Na, Om, length, rc1, tm)
              
@@ -287,7 +286,7 @@ class RedfieldRelaxationTensor(RelaxationTensor):
 
 
     def _guts_Cmplx_Splines(self, ms, Lm, Km, Na, Om, length, rc1, tm):
-
+        
         for a in range(Na):
             for b in range(Na):
                 
@@ -420,6 +419,7 @@ class RedfieldRelaxationTensor(RelaxationTensor):
         #print(tt2-tt1)
         return RR
 
+
     def initialize(self):
         """Initializes the Redfield tensor with values 
         
@@ -438,8 +438,10 @@ class RedfieldRelaxationTensor(RelaxationTensor):
         
         if self.as_operators:
             
-            self.data = self._convert_operators_2_tensor(self.Km,
-                                                         self.Lm, self.Ld)
+            RR = self._convert_operators_2_tensor(self.Km, self.Lm, self.Ld)
+            if True:
+                self.data = RR
+                self._data_initialized = True
                                                          
             self.as_operators = False
          

@@ -2,25 +2,30 @@
 
 import numpy
 
-from ...core.managers import BasisManaged
-from ...utils.types import BasisManagedComplexArray
+from .superoperator import SuperOperator
+#from ...core.managers import BasisManaged
+#from ...utils.types import BasisManagedComplexArray
 
-class RelaxationTensor(BasisManaged):
+class RelaxationTensor(SuperOperator): #BasisManaged):
 
-    data = BasisManagedComplexArray("data")
+    #data = BasisManagedComplexArray("data")
     
     def __init__(self):
         
+        self._initialize_basis()
+            
+        self._data_initialized = False
+        self.name = ""
+        self.as_operators = False
+        
+    def _initialize_basis(self):
+
         # Set the currently used basis
         cb = self.manager.get_current_basis()
         self.set_current_basis(cb)
         # unless it is the basis outside any context
         if cb != 0:
-            self.manager.register_with_basis(cb,self)
-            
-        self._data_initialized = False
-        self.name = ""
-        self.as_operators = False
+            self.manager.register_with_basis(cb,self)        
 
     def secularize(self):
         """Secularizes the relaxation tensor
@@ -28,9 +33,10 @@ class RelaxationTensor(BasisManaged):
 
         """
         if self.as_operators:
-            raise Exception("Cannot be secularized in the operator form")
+            self.convert_2_tensor()
+            #raise Exception("Cannot be secularized in the operator form")
             
-        else:
+        if True:
             if self.data.ndim == 4:
                 N = self.data.shape[0]
                 for ii in range(N):
@@ -120,6 +126,13 @@ class RelaxationTensor(BasisManaged):
                     for b in range(dim):
                         self._data[tt,a,b,:,:] = \
                             numpy.dot(S1,numpy.dot(self._data[tt,a,b,:,:],SS))            
+
+
+    def convert_2_tensor(self):
+        """Converts from operator to tensor form
+        
+        """
+        pass
 
 
     def updateStructure(self):

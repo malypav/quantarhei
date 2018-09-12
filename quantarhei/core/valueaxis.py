@@ -1,21 +1,10 @@
+
+
+
 # -*- coding: utf-8 -*-
 """
-    Quantarhei package (http://www.github.com/quantarhei)
-
-    ValueAxis module
-
-
-"""
-
-import numpy
-
-from ..utils import Float
-from ..utils import Integer
-from .saveable import Saveable
-
-class ValueAxis(Saveable):
-    """ Linear array of values which are used as variables of numerical
-    functions and parameter dependent matrices
+    Linear array of values which are used as variables of numerical functions 
+    and parameter dependent matrices
 
 
 
@@ -33,24 +22,6 @@ class ValueAxis(Saveable):
 
     data : numpy.array of float
         Values of the axis
-
-
-    Methods
-    -------
-
-    min()
-        returns the same value as the attribute `start`
-
-    max()
-        returns the last value of the `data` attribute
-        (`data[self.length-1]`)
-
-    locate(val)
-        returns the index of the element of `data` attribute which has the
-        closes lower value than `val`
-
-    nearest(val)
-        returns the index of the nearest neighbor to `val`
 
 
     Examples
@@ -87,7 +58,7 @@ class ValueAxis(Saveable):
     >>> i,diff = va.locate(16.3)
     >>> print(i)
     16
-    >>> print(diff)
+    >>> print("{0:.1f}".format(diff))
     0.3
 
     The following returns the nearest index on the axis
@@ -123,6 +94,35 @@ class ValueAxis(Saveable):
     >>> va3 = ValueAxis(0.0, 2000, 1.0)
     >>> va3.is_equal_to(va1)
     True
+
+    Class Details
+    -------------
+
+"""
+
+import numpy
+
+from ..utils import Float
+from ..utils import Integer
+from .saveable import Saveable
+from .. import REAL
+
+class ValueAxis(Saveable):
+    """Linear array of values which are used as variables of numerical functions 
+    and parameter dependent matrices 
+    
+    Parameters
+    ----------
+    
+    start : float
+        Beginning of the axis
+        
+    lenght : int
+        Number of points in the DFunction
+        
+    step : float
+        Step size on the axis
+        
     
     """
 
@@ -142,7 +142,7 @@ class ValueAxis(Saveable):
 
         self.data = numpy.linspace(start,
                                    start+(length-1)*step, length,
-                                   dtype=numpy.float)
+                                   dtype=REAL)
 
 
     @property
@@ -242,6 +242,11 @@ class ValueAxis(Saveable):
         """
         return ((self.start == axis.start) and (self.step == axis.step)
                 and (self.length == axis.length))
+
+        
+    def __eq__(self, other):
+        return self.is_equal_to(other)
+
 
     def is_extension_of(self, axis):
         """Returns True if the axis is contained in this ValueAxis

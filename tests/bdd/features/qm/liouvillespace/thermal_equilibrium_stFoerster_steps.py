@@ -12,8 +12,8 @@ from aloe import world
 
 import numpy
 
-from quantarhei.dev.feature import FeatureFileGenerator
-from quantarhei.dev.feature import match_number 
+from quantarhei.testing.feature import FeatureFileGenerator
+from quantarhei.testing.feature import match_number 
 
 from quantarhei import Molecule
 from quantarhei import Aggregate
@@ -158,8 +158,6 @@ def thermal_population_comparison(self, temp, atol):
     #end_feature
     
     """
-    
-    print("Testing Foerster theory")
 
     agg = world.aggregate
     rho0 = ReducedDensityMatrix(dim=world.N)

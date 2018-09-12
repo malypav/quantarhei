@@ -1,21 +1,80 @@
-Quantarhei Public Classes
-=========================
 
-This is a list of classes that are available through the import of
-the `Quantarhei` package. You can inport them system as
+.. automodule:: quantarhei
+    :members:
 
-.. code:: python
+List of User Level Classes
+==========================
 
-    from quantarhei import *
 
-Contents:
+Classes Representing General Concepts
+-------------------------------------
 
 .. toctree::
    :maxdepth: 2
 
-   classes/dfunction
+   classes/value
    classes/time
    classes/frequency
+   classes/dfunction
+
+
+Molecular Systems
+-----------------
+
+.. toctree::
+   :maxdepth: 2
+   
+   classes/molecule
+   classes/modes
+   classes/aggregates   
+   
+Molecular Environment
+---------------------
+
+.. toctree::
+   :maxdepth: 2
+   
+   classes/correlationfunction
+      
+   
+Quantum Mechanics
+-----------------
+
+.. toctree::
+   :maxdepth: 2   
+
    classes/statevector
-   classes/systembathinteraction
+
+Quantum Mechanics of Open Systems
+---------------------------------
+
+.. toctree::
+   :maxdepth: 2
+   
+   classes/superoperator
+   classes/superopunity
+   classes/evolsupop
+   
+Relaxation Tensors
+------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   classes/relaxtensors/relaxtensors
+   classes/relaxtensors/redfieldtensor
+   classes/relaxtensors/foerstertensor
+
+Spectroscopy
+------------
+
+.. toctree::
+   :maxdepth: 2
+   
+   classes/spectroscopy/abs
+   classes/spectroscopy/twod
+   classes/spectroscopy/labsetup
+   
+   
+
  

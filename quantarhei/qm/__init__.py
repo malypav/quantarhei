@@ -15,17 +15,21 @@ from .hilbertspace.operators import ReducedDensityMatrix
 #   OPERATORS
 #
 from .hilbertspace.operators import Operator
+from .hilbertspace.operators import SelfAdjointOperator
 from .hilbertspace.operators import ProjectionOperator
 from .hilbertspace.operators import BasisReferenceOperator
+from .hilbertspace.operators import UnityOperator
 from .hilbertspace.hamiltonian import Hamiltonian
 from .hilbertspace.dmoment import TransitionDipoleMoment
 
+
+from .liouvillespace.liouvillian import Liouvillian
 
 #
 #   SYSTEM-BATH INTERACTION
 #
 from .liouvillespace.systembathinteraction import SystemBathInteraction
-
+from .liouvillespace.systembathinteraction_test import TestSystemBathInteraction
 #
 #   RELAXATION THEORY
 #
@@ -52,8 +56,9 @@ from .liouvillespace.lindbladform import LindbladForm
 from .liouvillespace.lindbladform import ElectronicLindbladForm
 
 from .liouvillespace.evolutionsuperoperator import EvolutionSuperOperator
-from .liouvillespace.evolutionsuperoperator import SuperOperator
-from .liouvillespace.evolutionsuperoperator import SOpUnity
+from .liouvillespace.superoperator import SuperOperator
+from .liouvillespace.superoperator_test import TestSuperOperator
+from .liouvillespace.supopunity import SOpUnity
 
 #
 #  PROPAGATORS 

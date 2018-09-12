@@ -1,0 +1,7 @@
+nose
+aloe
+behave
+paver
+coverage
+codecov
+

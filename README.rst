@@ -1,4 +1,6 @@
-QUANTArhei: Open Quantum System Theory for Molecular Systems
+|Build Status| |DocBuild Status| |Coverage|
+
+QUANTArhei: Open Quantum System Theory for Molecular Systems 
 ============================================================
 
 Quantarhei is a Molecular Open Quantum Systems Simulator written predominantly
@@ -29,7 +31,7 @@ such as Hamiltonian, relaxation tensors, various initial
 conditions for density matrix etc.
 
 Quantarhei is at its experimental stage. 
-Current version is 0.0.33
+Current version is |Version|
 
 Quantarhei is available in source form on GitHub and from PyPI for installation
 with the pip command.
@@ -58,6 +60,80 @@ and
 through grants: 14-25752S (2014-2016) and 17-22160S (2017- )
 
 
+New in 0.0.38
+=============
+
+For users:  
+ - Some bug fixes
+ 
+
+New in 0.0.37
+=============
+
+For users:  
+ - Some bug fixes
+
+For developers
+ - Some unused files removed
+ - More precise dependencies on other packages specified in setup
+ 
+
+New in 0.0.36
+=============
+
+For users:  
+ - Quantarhei now available also as a conda package 
+ - Recommended installation procedure documented
+ - TwoDSpectrum class revised - new method names, better storage model (keeps track of rephasing and non-rephasing part, groups of pathways associated with different processes when required, stores different pathways separately when required)
+ - Improved TwoDSpectrumContainer (can hold a group of spectra identified by an arbitrary ValueAxis (most notably TimeAxis and FrequencyAxis), integer index or list of strings). Copies the new storage improvement on TwoDSpectrum.
+ - labsetup class changed to LabSetup and extended by information about pulse profiles and spectra. labsetup is left as deprecated for compatibility
+ - Fourier transform of 2D spectra in t2, via TwoDSpectrumContainer; also enables FFT with window function
+ - Functions of ValueAxis introduced in a special module; Tukey window function for FFT in waiting time is one of them
+ - SuperOperator is BasisManaged; basis management is solved for both time-dependent and time-independent super operators
+ - RelaxationTensor now inherits from SuperOperator and it is BasisManaged through that inheritance
+ - EvolutionSuperOperator tested, documented and it is BasisManaged
+ - EvolutionSuperOperator’s method apply() can be applied with time argument which is of type TimeAxis type, float or array of floats; returns DensityMatrix or DensityMatrixEvolution
+ - Quantarhei driver qrhei changes format: use ‘qrhei run scriptname’ to run scripts and consult the -h option of ‘qrhei run’; parallel runs untested in this version
+ - Documentation contains a description of the concept of “user”, “advanced”, and “expert” levels of classes in Quantarhei.
+ - List of classes completely covered by documentation and doctests included in on-line documentation
+ - Classes Mode, SubMode, Molecule, TwoDSpectrumContainer completely documented
+ - Documentation enhanced
+ - Countless small improvements and bug fixes
+
+For developers:
+ - Code of conduct file now in the root directory of the package
+ - Absorption spectroscopy related classes now organized in one file per class fashion so that automatic documentation is easier to read
+ - New subpackage quantarhei.testing united all custom functions that support testing. It includes feature.py module previously found in quantarhei.dev subpacked (now removed) and a behave.py module which supports tests with behave package
+ - Behave package is now used for some tests (in particular for tests of the “qrhei” driver). Future acceptance tests should preferentially be written with this package
+ - New helper script “ghenerate” autogenerates Python step files for tests with ‘behave’ package from the Gherkin feature files 
+
+
+New in 0.0.35
+=============
+
+For users:
+ - Method get_DensityMatrix() of the Aggregate class improved. It accepts some new options which makes specification of desired density matrix more flexible
+ - Experimental implementation of circular and linear dichroisms and fluorescence spectra
+ - Documentation is now available on readthedocs.org. A badge |DocBuild Status| which informations about the status of automatic documentation builds was added to README
+ - Many small improvements and bug fixes 
+
+For developers:
+ - The code is now hosted on travis-ci.com and the builds are tested after every commit. Corresponding badge |Build Status| has been added to README
+ - The code is now hosted on codecov.com and its coverage by tests is measured. Corresponding badge showing the coverage |Coverage| has beed added to README
+
+
+New in 0.0.34
+=============
+
+For users
+ - Some issues with addition of bath correlation functions was fixed
+ - First entry in a database of literature bath correlation functions was created: the vibrational part of the FMO spectral density from Wendling et al., (2004)
+ - Aggregate can return a matrix of Franck-Condon factors (get_FC_factor_matrix())
+ - Aggregate can transform excited state site-basis shifted vibrational representation of an arbitrary operator to the unshifted (ground state) one (transform_2_unshifted(A, inverse=True/False) )
+ - Several new tested examples
+ - RelaxationTensors (Redfield, Foerster, Lindblad, etc.) can now be multiplied by a constant or added (addition only if they are in tensor, i. e. not in operator, form)
+ - Tested examples can be fetched into IPython notebook or Python/IPython console by %example magic command or fetch_example function from quantarhei.wizard.magic module
+ - Small improvements and bug fixes
 
 New in 0.0.33
 =============
@@ -106,3 +182,17 @@ For developers:
 - New tests under quantarhei/tests directory (mostly unit tests which contain plots)
 - pytest required to run newtests with matplotlib plots
  
+
+.. |DocBuild Status| image:: https://readthedocs.org/projects/quantarhei/badge/?version=latest
+   :target: http://quantarhei.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+   
+.. |Build Status| image:: https://travis-ci.com/tmancal74/quantarhei.svg?branch=master
+   :target: https://travis-ci.com/tmancal74/quantarhei
+   :alt: Build Status
+ 
+.. |Coverage| image:: https://img.shields.io/codecov/c/github/tmancal74/quantarhei.svg
+   :target: https://codecov.io/gh/tmancal74/quantarhei
+   
+.. |Version| image:: https://img.shields.io/pypi/v/quantarhei.svg
+   :target: https://pypi.org/project/quantarhei/

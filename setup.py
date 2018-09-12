@@ -27,7 +27,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.0.34',
+    version='0.0.39',
 
     description='Quantarhei: Open Quantum System Theory for Molecular Systems',
     long_description=long_description,
@@ -68,7 +68,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='physics, chemistry, quantum mechanics, open quantum systems',
+    keywords='physics, chemistry, quantum mechanics, open quantum systems, spectroscopy',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -82,7 +82,8 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['numpy','scipy','matplotlib','h5py'],
+    install_requires=['numpy','scipy','matplotlib',
+                      'dill','terminaltables','gherkin-official'],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -96,9 +97,9 @@ setup(
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
-    ###package_data={
-    ###    'sample': ['package_data.dat'],
-    ###},
+    package_data={
+        'quantarhei': ['testing/resources/behave/test.feature'],
+    },
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
@@ -112,7 +113,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': ['qrhei=quantarhei.scripts.qrhei:main',
-                            'lams=quantarhei.scripts.lams:main'],
+                            'ghenerate=quantarhei.scripts.ghenerate:main'],
     }
     
 )

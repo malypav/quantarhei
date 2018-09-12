@@ -115,27 +115,11 @@ cfce_params2 = dict(ftype="OverdampedBrownian",
 with qr.energy_units("1/cm"):
     cfce1 = qr.CorrelationFunction(ta,cfce_params1)
     cfce2 = qr.CorrelationFunction(ta,cfce_params2)
-<<<<<<< HEAD:examples/demo_006_Absorption_1.py
-<<<<<<< HEAD:examples/demo6_absorption.py
-    m1 = qr.Molecule([0.0, 12100])
-    m1.set_dipole(0,1,[0.0,3.0,0.0])
-    m1.set_transition_environment((0,1),cfce1)
-    m1.position = [0.0,0.0,0.0]
-    m2 = qr.Molecule([0.0, 12000])
-=======
     m1 = qr.Molecule([0.0, 12100], name="M1")
     m1.set_dipole(0,1,[0.0,3.0,0.0])
     m1.set_transition_environment((0,1),cfce1)
     m1.position = [0.0,0.0,0.0]
     m2 = qr.Molecule([0.0, 12000], name="M2")
->>>>>>> upstream/master:examples/demo_006_Absorption_1.py
-=======
-    m1 = qr.Molecule("M1",[0.0, 12100])
-    m1.set_dipole(0,1,[0.0,3.0,0.0])
-    m1.set_transition_environment((0,1),cfce1)
-    m1.position = [0.0,0.0,0.0]
-    m2 = qr.Molecule("M1",[0.0, 12000])
->>>>>>> parent of 1b0ef4b... demo6 example syntax modified:examples/demo6_absorption.py
     m2.set_dipole(0,1,[0.0,1.0,1.0])
     m2.position = [5.0,0.0,0.0]
     m2.set_transition_environment((0,1),cfce2)    

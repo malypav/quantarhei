@@ -378,7 +378,10 @@ def group_energies_by_gap(
         Number of energies in each band.
     gap_indices : list of int
         Indices at which bands start (for reference).
-   
+
+    Note: changed by Pavel to fraction of the maximum gap instead of median gap
+    to avoid issues for +- equally spaced ladders (e.g., vibrational).
+
     """
     import numpy as np
 
